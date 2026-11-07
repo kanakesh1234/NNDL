@@ -20,40 +20,56 @@ from src.features import (
 )
 from src.models import load_inference_model
 
+# Match Matplotlib chart typography to the Apple / Plus Jakarta Sans UI font stack
+plt.rcParams["font.sans-serif"] = [
+    "Plus Jakarta Sans",
+    "SF Pro Display",
+    "SF Pro Text",
+    "Helvetica Neue",
+    "Arial",
+    "sans-serif",
+]
+plt.rcParams["axes.unicode_minus"] = False
+
 ROOT_DIR = Path(__file__).resolve().parent
 DEMO_DIR = ROOT_DIR / "demo_audio"
 CSS_PATH = ROOT_DIR / "style.css"
 DEMO_FREQUENCIES = np.array([220, 260, 330, 390, 470, 560, 670, 800], dtype=float)
 
-# Crisp Apple SF-Symbol-Style Inline SVGs (Rendered in #1D1D1F Apple Black)
+# Apple SF-Symbol-Style Inline SVGs matching the warm charcoal/bronze theme
 SVG_MIC = (
-    '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1D1D1F" '
-    'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+    '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1C1917" '
+    'stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'
     '<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>'
     '<path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>'
 )
 
 SVG_UPLOAD = (
-    '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1D1D1F" '
-    'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+    '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1C1917" '
+    'stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'
     '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>'
     '<polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>'
 )
 
 SVG_WAVE = (
-    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1D1D1F" '
-    'stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">'
+    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2A6F4E" '
+    'stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">'
     '<line x1="4" y1="10" x2="4" y2="14"/><line x1="8" y1="6" x2="8" y2="18"/>'
     '<line x1="12" y1="3" x2="12" y2="21"/><line x1="16" y1="7" x2="16" y2="17"/>'
     '<line x1="20" y1="10" x2="20" y2="14"/></svg>'
 )
 
 SVG_CLOCK = (
-    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1D1D1F" '
-    'stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">'
+    '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#57534E" '
+    'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
     '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>'
 )
 
+SVG_AUDIO_FILE = (
+    '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#57534E" '
+    'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+    '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>'
+)
 st.set_page_config(
     page_title="Speech Emotion Recognition",
     page_icon="〰️",
@@ -139,7 +155,7 @@ def plot_edgebook_curve(x: np.ndarray, y_vals: np.ndarray, unit_label: str = "",
         textcoords="offset points",
         ha="center",
         fontsize=7.8,
-        color="#1D1D1F",
+        color="#57534E",
         fontweight="600",
     )
     ax.scatter([x_dense[-1]], [y_dense[-1]], s=46, color="#2A6F4E", zorder=6)
@@ -156,13 +172,13 @@ def plot_edgebook_curve(x: np.ndarray, y_vals: np.ndarray, unit_label: str = "",
     ax.set_yticks([y_min + 0.1 * span, y_max * 0.92])
     ax.set_yticklabels(
         [y_fmt.format(y_min + 0.1 * span) + unit_label, y_fmt.format(y_max * 0.92) + unit_label],
-        color="#1D1D1F",
+        color="#78716C",
         fontsize=7.8,
     )
 
     xticks = np.linspace(float(x_dense[0]), float(x_dense[-1]), 4)
     ax.set_xticks(xticks)
-    ax.set_xticklabels([f"{t:.1f}s" for t in xticks], color="#1D1D1F", fontsize=7.8)
+    ax.set_xticklabels([f"{t:.1f}s" for t in xticks], color="#78716C", fontsize=7.8)
     ax.tick_params(axis="both", length=0, pad=6)
 
     for spine in ax.spines.values():
@@ -204,7 +220,7 @@ if "last_upload_hash" not in st.session_state:
     st.session_state.last_upload_hash = None
 
 # ---------------------------------------------------------------------------
-# 1. Minimal Header ("Hi." + Crisp Apple Black Top-Right Icons & Time)
+# 1. Minimal Header ("Hi." + Theme-Matched Apple Status & Time Pills)
 # ---------------------------------------------------------------------------
 status_label = "Attention BiLSTM · VAD Preprocessing Active" if primary_model is not None else "Demo Mode · Checkpoint Missing"
 current_time_str = datetime.now().strftime("%I:%M %p").lstrip("0")
@@ -235,7 +251,7 @@ dock_left, dock_right = st.columns(2, gap="medium")
 
 with dock_left:
     with st.container(border=True):
-        top_c1, top_c2 = st.columns([1.8, 1.1])
+        top_c1, top_c2 = st.columns([1.85, 1.05])
         with top_c1:
             st.markdown(
                 f"""
@@ -270,7 +286,7 @@ with dock_right:
                     <span class="apple-icon-badge">{SVG_UPLOAD}</span>
                     <span>Upload Audio</span>
                 </span>
-                <span class="apple-input-tag">WAV · MP3 · M4A · FLAC · OGG</span>
+                <span class="apple-input-tag">{SVG_AUDIO_FILE}<span>WAV · MP3 · M4A · FLAC</span></span>
             </div>
             """,
             unsafe_allow_html=True,

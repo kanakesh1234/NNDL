@@ -1,11 +1,13 @@
 /* ============================================================================
    APPLE & EDGEBOOK SINGLE-DASHBOARD DESIGN SYSTEM
-   Warm Alabaster, Forest Sage & Crisp Apple Black (#1D1D1F) Top-Right Controls
+   Warm Alabaster, Forest Sage & Apple-Inspired Charcoal — Unified Font & Clean Controls
    ============================================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
 :root {
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+
     --bg-canvas: #F3F0E8;
     --bg-card: #FAF8F4;
     --bg-card-subtle: #F4F1EA;
@@ -17,10 +19,10 @@
     --border-bronze: #B58D47;
 
     --apple-black: #1D1D1F;
-    --ink-primary: #1D1D1F;
-    --ink-secondary: #48484A;
-    --ink-muted: #6E6E73;
-    --ink-faint: #8E8E93;
+    --ink-primary: #1C1917;
+    --ink-secondary: #57534E;
+    --ink-muted: #78716C;
+    --ink-faint: #A8A196;
 
     --sage: #2A6F4E;
     --bronze: #78592B;
@@ -34,53 +36,36 @@
 }
 
 /* ============================================================================
-   1. BASE PAGE & FULL-WIDTH SINGLE DASHBOARD
+   1. UNIFIED FONT & FULL-WIDTH SINGLE DASHBOARD (HIDE STREAMLIT CHROME)
    ============================================================================ */
-html, body, [class*="css"], .stApp {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", 'Plus Jakarta Sans', "Helvetica Neue", sans-serif !important;
-    background-color: var(--bg-canvas) !important;
-    color: var(--apple-black) !important;
+html, body, [class*="css"], .stApp, button, input, select, textarea, span, p, div, label {
+    font-family: var(--font-sans) !important;
     -webkit-font-smoothing: antialiased;
-    letter-spacing: -0.015em;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-.stApp {
-    background: var(--bg-canvas) !important;
+html, body, .stApp {
+    background-color: var(--bg-canvas) !important;
+    color: var(--ink-primary) !important;
+    letter-spacing: -0.014em;
 }
 
-/* Hide sidebar completely for a clean single-page dashboard */
+/* Completely hide Streamlit top header bar, top-right black icon box & sidebar */
+header[data-testid="stHeader"],
+div[data-testid="stToolbar"],
+div[data-testid="stDecoration"],
+div[data-testid="stStatusWidget"],
 section[data-testid="stSidebar"],
 div[data-testid="collapsedControl"],
-button[kind="header"] {
-    display: none !important;
-}
-
-/* Style Streamlit Top-Right Header Toolbar Icons in Crisp Apple Black (#1D1D1F) */
-header[data-testid="stHeader"] {
-    background: transparent !important;
-    border-bottom: none !important;
-    height: 2.2rem !important;
-}
-
-header[data-testid="stHeader"] *,
-header[data-testid="stHeader"] button,
-header[data-testid="stHeader"] svg,
-header[data-testid="stHeader"] path,
-div[data-testid="stToolbar"] *,
-div[data-testid="stToolbar"] button,
-div[data-testid="stToolbar"] svg,
-div[data-testid="stToolbar"] path,
-div[data-testid="stStatusWidget"] * {
-    color: var(--apple-black) !important;
-    fill: var(--apple-black) !important;
-}
-
-footer {
+button[kind="header"],
+#MainMenu,
+footer,
+.stDeployButton {
     display: none !important;
 }
 
 .block-container {
-    padding-top: 1.4rem !important;
+    padding-top: 2.0rem !important;
     padding-bottom: 2.8rem !important;
     padding-left: 2.5rem !important;
     padding-right: 2.5rem !important;
@@ -88,7 +73,7 @@ footer {
 }
 
 /* ============================================================================
-   2. MINIMAL HEADER ("Hi." + APPLE BLACK TOP-RIGHT ICONS & TIME CLUSTER)
+   2. MINIMAL HEADER ("Hi." + APPLE STATUS & TIME PILLS)
    ============================================================================ */
 .eb-topbar {
     display: flex;
@@ -112,49 +97,23 @@ footer {
     gap: 8px;
 }
 
-.apple-status-chip {
+.apple-status-chip,
+.apple-time-chip {
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    padding: 6px 13px;
+    padding: 6px 14px;
     background: var(--bg-card);
     border: 1px solid var(--border-hairline);
     border-radius: var(--radius-pill);
     font-size: 0.78rem;
     font-weight: 600;
-    color: var(--apple-black) !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-}
-
-.apple-status-chip svg,
-.apple-status-chip path,
-.apple-status-chip line,
-.apple-status-chip circle,
-.apple-status-chip polyline {
-    color: var(--apple-black) !important;
-    stroke: var(--apple-black) !important;
+    color: var(--ink-primary) !important;
+    box-shadow: 0 1px 2px rgba(28, 25, 23, 0.03);
 }
 
 .apple-time-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 13px;
-    background: var(--bg-card);
-    border: 1px solid var(--border-hairline);
-    border-radius: var(--radius-pill);
-    font-size: 0.80rem;
-    font-weight: 700;
     font-variant-numeric: tabular-nums;
-    color: var(--apple-black) !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-}
-
-.apple-time-chip svg,
-.apple-time-chip circle,
-.apple-time-chip polyline {
-    color: var(--apple-black) !important;
-    stroke: var(--apple-black) !important;
 }
 
 .eb-dot {
@@ -166,51 +125,58 @@ footer {
 }
 
 /* ============================================================================
-   3. APPLE INPUT DOCK (RECORD & UPLOAD CARDS WITH CRISP BLACK ICONS)
+   3. APPLE INPUT DOCK (RECORD & UPLOAD CARDS — SYMMETRIC & MATCHING THEME)
    ============================================================================ */
 .apple-input-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    min-height: 34px;
     margin-bottom: 8px;
 }
 
 .apple-input-title {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 9px;
     font-size: 0.88rem;
     font-weight: 600;
-    color: var(--apple-black) !important;
-    letter-spacing: -0.01em;
+    color: var(--ink-primary) !important;
+    letter-spacing: -0.015em;
 }
 
 .apple-icon-badge {
-    width: 28px;
-    height: 28px;
+    width: 30px;
+    height: 30px;
     border-radius: 8px;
-    background: #EFECE3;
+    background: var(--bg-card-subtle);
     border: 1px solid var(--border-hairline);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: var(--apple-black) !important;
+    color: var(--ink-primary) !important;
 }
 
 .apple-icon-badge svg,
 .apple-icon-badge path,
 .apple-icon-badge line,
 .apple-icon-badge polyline {
-    color: var(--apple-black) !important;
-    stroke: var(--apple-black) !important;
+    color: var(--ink-primary) !important;
+    stroke: var(--ink-primary) !important;
 }
 
 .apple-input-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 11px;
+    background: var(--bg-card-subtle);
+    border: 1px solid var(--border-hairline);
+    border-radius: var(--radius-pill);
     font-size: 0.72rem;
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--apple-black) !important;
+    letter-spacing: 0.03em;
+    color: var(--ink-secondary) !important;
 }
 
 /* Style Streamlit bordered containers as clean ivory Apple cards */
@@ -223,91 +189,145 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
 }
 
 /* ============================================================================
-   4. MICROPHONE RECORDER BAR, TIMER (00:05) & TOP-RIGHT ICONS IN APPLE BLACK
+   4. MICROPHONE RECORDER (CLEAN TIMECODE AND CONTROLS)
    ============================================================================ */
-
-/* Force entire stAudioInput bar to warm ivory with crisp #1D1D1F black timer & icons */
-div[data-testid="stAudioInput"],
-div[data-testid="stAudioInput"] > div,
-div[data-testid="stAudioInput"] [data-baseweb] {
-    background-color: var(--bg-card-subtle) !important;
-    color: var(--apple-black) !important;
-    border-radius: 12px !important;
-}
-
 div[data-testid="stAudioInput"] {
+    background-color: var(--bg-card-subtle) !important;
     border: 1px solid var(--border-hairline) !important;
+    border-radius: 12px !important;
     padding: 4px 10px !important;
+    min-height: 54px !important;
+    display: flex !important;
+    align-items: center !important;
 }
 
-/* Timer (00:05) and all status text inside stAudioInput in crisp Apple Black */
+/* Remove dark background from ALL inner elements including the 00:00 timecode box */
+div[data-testid="stAudioInput"] > div,
+div[data-testid="stAudioInput"] div,
 div[data-testid="stAudioInput"] span,
-div[data-testid="stAudioInput"] p,
-div[data-testid="stAudioInput"] time,
-div[data-testid="stAudioInput"] [data-testid="stAudioInputWaveformTimeCode"],
-div[data-testid="stAudioInput"] div {
-    color: var(--apple-black) !important;
+div[data-testid="stAudioInput"] [data-testid="stAudioInputWaveformTimeCode"] {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: var(--ink-secondary) !important;
+    font-family: var(--font-sans) !important;
     font-weight: 600 !important;
+    font-size: 0.80rem !important;
     font-variant-numeric: tabular-nums !important;
-    opacity: 1 !important;
+    box-shadow: none !important;
 }
 
-/* Action buttons and icons inside stAudioInput in crisp Apple Black on warm ivory */
+/* Style the mic/record button inside stAudioInput in clean warm stone & charcoal */
 div[data-testid="stAudioInput"] button {
-    background-color: #EAE5DA !important;
-    color: var(--apple-black) !important;
-    border: 1px solid #D8D2C5 !important;
-    border-radius: 8px !important;
-    opacity: 1 !important;
+    background-color: var(--bg-card) !important;
+    color: var(--ink-primary) !important;
+    border: 1px solid var(--border-hairline) !important;
+    border-radius: 9px !important;
+    width: 34px !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    padding: 0 !important;
+    box-shadow: 0 1px 2px rgba(28, 25, 23, 0.05) !important;
+    transition: all 0.18s var(--ease-out) !important;
 }
 
 div[data-testid="stAudioInput"] button:hover {
-    background-color: #DFD9CA !important;
+    background-color: var(--bg-pill-track) !important;
+    border-color: #C7C0B3 !important;
 }
 
-div[data-testid="stAudioInput"] button svg,
-div[data-testid="stAudioInput"] button path,
-div[data-testid="stAudioInput"] svg,
-div[data-testid="stAudioInput"] path {
-    color: var(--apple-black) !important;
-    fill: var(--apple-black) !important;
-    stroke: var(--apple-black) !important;
-    opacity: 1 !important;
+/* Only fill non-transparent paths so 24x24 SVG bounding boxes never turn black */
+div[data-testid="stAudioInput"] button svg {
+    color: var(--ink-primary) !important;
+    width: 17px !important;
+    height: 17px !important;
 }
 
-/* Action Buttons (New recording) — Crisp Apple Black text on Warm Ivory Pill */
+div[data-testid="stAudioInput"] button path:not([fill="none"]) {
+    fill: var(--ink-primary) !important;
+}
+
+/* Style waveform canvas inside stAudioInput so dots are visible on warm ivory */
+div[data-testid="stAudioInput"] canvas {
+    filter: invert(0.72) sepia(0.18) saturate(0.6) !important;
+    opacity: 0.65 !important;
+}
+
+/* ============================================================================
+   5. FILE UPLOADER — MATCH HEIGHT & THEME OF RECORD VOICE BAR
+   ============================================================================ */
+section[data-testid="stFileUploaderDropzone"] {
+    background-color: var(--bg-card-subtle) !important;
+    border: 1px solid var(--border-hairline) !important;
+    border-radius: 12px !important;
+    padding: 7px 12px !important;
+    min-height: 54px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* Hide clunky default cloud icon so the card stays clean & Apple-minimal */
+section[data-testid="stFileUploaderDropzone"] svg {
+    display: none !important;
+}
+
+section[data-testid="stFileUploaderDropzone"] span,
+section[data-testid="stFileUploaderDropzone"] small,
+section[data-testid="stFileUploaderDropzone"] div {
+    color: var(--ink-secondary) !important;
+    font-size: 0.78rem !important;
+    font-weight: 500 !important;
+    line-height: 1.25 !important;
+}
+
+section[data-testid="stFileUploaderDropzone"] button {
+    background-color: var(--bg-card) !important;
+    color: var(--ink-primary) !important;
+    border: 1px solid var(--border-hairline) !important;
+    border-radius: var(--radius-pill) !important;
+    padding: 5px 14px !important;
+    min-height: 32px !important;
+    font-size: 0.78rem !important;
+    font-weight: 600 !important;
+    box-shadow: 0 1px 2px rgba(28, 25, 23, 0.04) !important;
+}
+
+section[data-testid="stFileUploaderDropzone"] button:hover {
+    background-color: var(--bg-pill-track) !important;
+}
+
+/* ============================================================================
+   6. ACTION BUTTONS & SEGMENTED PILLS (SAME FONT & THEME)
+   ============================================================================ */
 div.stButton > button,
 div[data-testid="stButton"] > button {
-    background-color: #EFECE3 !important;
+    background-color: var(--bg-card-subtle) !important;
     background-image: none !important;
-    color: var(--apple-black) !important;
-    border: 1px solid #D5CFC2 !important;
+    color: var(--ink-primary) !important;
+    border: 1px solid var(--border-hairline) !important;
     border-radius: var(--radius-pill) !important;
-    padding: 0.38rem 1.05rem !important;
-    min-height: 34px !important;
-    font-size: 0.79rem !important;
+    padding: 0.34rem 1.0rem !important;
+    min-height: 32px !important;
+    font-size: 0.76rem !important;
     font-weight: 600 !important;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+    box-shadow: none !important;
     transition: all 0.18s var(--ease-out) !important;
 }
 
 div.stButton > button *,
-div[data-testid="stButton"] > button *,
-div.stButton > button p,
-div.stButton > button span {
-    color: var(--apple-black) !important;
-    fill: var(--apple-black) !important;
+div[data-testid="stButton"] > button * {
+    color: var(--ink-primary) !important;
     font-weight: 600 !important;
-    font-size: 0.79rem !important;
+    font-size: 0.76rem !important;
 }
 
 div.stButton > button:hover,
 div[data-testid="stButton"] > button:hover {
-    background-color: #E4DFD3 !important;
-    border-color: var(--apple-black) !important;
+    background-color: var(--bg-pill-track) !important;
+    border-color: #CFC8BA !important;
 }
 
-/* Segmented Radio Pills at Top-Right of Card (Attention | Energy | Waveform) — Crisp Apple Black */
+/* Segmented Radio Pills (Attention | Energy | Waveform) */
 div[data-testid="stRadio"] > div[role="radiogroup"] {
     background-color: var(--bg-pill-track) !important;
     border: 1px solid var(--border-hairline) !important;
@@ -320,7 +340,7 @@ div[data-testid="stRadio"] > div[role="radiogroup"] {
 div[data-testid="stRadio"] label {
     background-color: transparent !important;
     border-radius: var(--radius-pill) !important;
-    padding: 5px 14px !important;
+    padding: 4px 13px !important;
     margin: 0 !important;
     cursor: pointer !important;
     transition: all 0.18s var(--ease-out) !important;
@@ -328,26 +348,21 @@ div[data-testid="stRadio"] label {
 
 div[data-testid="stRadio"] label,
 div[data-testid="stRadio"] label *,
-div[data-testid="stRadio"] label p,
-div[data-testid="stRadio"] label span,
-div[data-testid="stRadio"] label div,
 div[data-testid="stRadio"] [data-testid="stMarkdownContainer"] p {
-    color: var(--apple-black) !important;
-    font-size: 0.78rem !important;
+    color: var(--ink-secondary) !important;
+    font-size: 0.76rem !important;
     font-weight: 600 !important;
     opacity: 1 !important;
 }
 
 div[data-testid="stRadio"] label:has(input:checked) {
-    background-color: #FFFFFF !important;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12) !important;
+    background-color: var(--bg-card) !important;
+    box-shadow: 0 1px 3px rgba(28, 25, 23, 0.08) !important;
 }
 
 div[data-testid="stRadio"] label:has(input:checked),
-div[data-testid="stRadio"] label:has(input:checked) *,
-div[data-testid="stRadio"] label:has(input:checked) p,
-div[data-testid="stRadio"] label:has(input:checked) span {
-    color: var(--apple-black) !important;
+div[data-testid="stRadio"] label:has(input:checked) * {
+    color: var(--ink-primary) !important;
     font-weight: 700 !important;
 }
 
@@ -355,35 +370,8 @@ div[data-testid="stRadio"] label > div:first-child {
     display: none !important;
 }
 
-/* File Uploader — Clean Light Dropzone with Black Icons & Text */
-section[data-testid="stFileUploaderDropzone"] {
-    background-color: var(--bg-card-subtle) !important;
-    border: 1px dashed #C7C0B3 !important;
-    border-radius: 12px !important;
-    padding: 8px 12px !important;
-    min-height: 52px !important;
-}
-
-section[data-testid="stFileUploaderDropzone"] *,
-section[data-testid="stFileUploaderDropzone"] span,
-section[data-testid="stFileUploaderDropzone"] small,
-section[data-testid="stFileUploaderDropzone"] svg {
-    color: var(--apple-black) !important;
-    font-size: 0.78rem !important;
-}
-
-section[data-testid="stFileUploaderDropzone"] button {
-    background-color: #FFFFFF !important;
-    color: var(--apple-black) !important;
-    border: 1px solid #D5CFC2 !important;
-    border-radius: var(--radius-pill) !important;
-    padding: 3px 12px !important;
-    font-size: 0.76rem !important;
-    font-weight: 600 !important;
-}
-
 /* ============================================================================
-   5. HERO CARD & 4-COLUMN STAT STRIP
+   7. HERO CARD & 4-COLUMN STAT STRIP
    ============================================================================ */
 .eb-card {
     background: var(--bg-card);
@@ -488,7 +476,7 @@ section[data-testid="stFileUploaderDropzone"] button {
 }
 
 /* ============================================================================
-   6. COMPACT 8-EMOTION PROBABILITY GRID
+   8. COMPACT 8-EMOTION PROBABILITY GRID
    ============================================================================ */
 .eb-grid-8 {
     display: grid;
